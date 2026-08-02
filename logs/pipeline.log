@@ -1,0 +1,9 @@
+2026-08-02 00:55:25,700 | INFO | Logger initialized successfully.
+2026-08-02 00:55:25,700 | INFO | Application started.
+2026-08-02 00:55:25,700 | WARNING | This is a test warning.
+2026-08-02 00:55:25,701 | ERROR | This is a test error.
+2026-08-02 02:10:43,830 | INFO | Logger initialized successfully.
+2026-08-02 02:12:45,814 | INFO | Logger initialized successfully.
+2026-08-02 02:12:45,814 | INFO | Found 1 CSV file(s).
+2026-08-02 02:12:45,815 | INFO | Reading file: sales_2026_08_01.csv
+2026-08-02 02:12:45,829 | INFO | Total records loaded: 10

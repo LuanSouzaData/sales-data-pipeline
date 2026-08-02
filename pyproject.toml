@@ -1,0 +1,10 @@
+[project]
+name = "sales-data-pipeline"
+version = "0.1.0"
+description = "End-to-end ETL pipeline for retail sales data."
+readme = "README.md"
+requires-python = ">=3.11"
+
+authors = [
+    { name = "Luan Souza" }
+]
