@@ -6,4 +6,84 @@
 2026-08-02 02:12:45,814 | INFO | Logger initialized successfully.
 2026-08-02 02:12:45,814 | INFO | Found 1 CSV file(s).
 2026-08-02 02:12:45,815 | INFO | Reading file: sales_2026_08_01.csv
-2026-08-02 02:12:45,829 | INFO | Total records loaded: 10
+2026-08-02 02:12:45,829 | INFO | Total records loaded: 102026-08-02 15:11:14,686 | INFO | Logger initialized successfully.
+2026-08-02 15:11:14,687 | INFO | Found 1 CSV file(s).
+2026-08-02 15:11:14,687 | INFO | Reading file: sales_2026_08_01.csv
+2026-08-02 15:11:14,696 | INFO | Total records loaded: 10
+2026-08-02 15:11:14,700 | INFO | Removed 0 duplicated record(s).
+2026-08-02 15:33:31,261 | INFO | Logger initialized successfully.
+2026-08-02 15:33:31,263 | INFO | Found 1 CSV file(s).
+2026-08-02 15:33:31,263 | INFO | Reading file: sales_2026_08_01.csv
+2026-08-02 15:33:31,265 | INFO | Total records loaded: 10
+2026-08-02 15:33:31,266 | INFO | Removed 0 duplicated record(s).
+2026-08-02 15:41:56,757 | INFO | Logger initialized successfully.
+2026-08-02 15:41:56,758 | INFO | Found 1 CSV file(s).
+2026-08-02 15:41:56,758 | INFO | Reading file: sales_2026_08_01.csv
+2026-08-02 15:41:56,761 | INFO | Total records loaded: 11
+2026-08-02 15:41:56,766 | INFO | Removed 1 duplicated record(s).
+2026-08-02 15:41:56,767 | INFO | Removed 2 record(s) with invalid quantity.
+2026-08-02 16:16:44,609 | INFO | Logger initialized successfully.
+2026-08-02 16:16:44,613 | INFO | Found 1 CSV file(s).
+2026-08-02 16:16:44,614 | INFO | Reading file: sales_2026_08_01.csv
+2026-08-02 16:16:44,616 | INFO | Total records loaded: 11
+2026-08-02 16:16:44,619 | INFO | Removed 1 duplicated record(s).
+2026-08-02 16:16:44,620 | INFO | Removed 2 record(s) with invalid quantity.
+2026-08-02 16:16:44,621 | INFO | Removed 1 record(s) with invalid price.
+2026-08-02 16:32:36,848 | INFO | Logger initialized successfully.
+2026-08-02 16:32:36,856 | INFO | Found 1 CSV file(s).
+2026-08-02 16:32:36,856 | INFO | Reading file: sales_2026_08_01.csv
+2026-08-02 16:32:36,869 | INFO | Total records loaded: 11
+2026-08-02 16:32:36,879 | INFO | Removed 1 duplicated record(s).
+2026-08-02 16:32:36,881 | INFO | Removed 2 record(s) with invalid quantity.
+2026-08-02 16:32:36,882 | INFO | Removed 1 record(s) with invalid price.
+2026-08-02 16:32:36,893 | INFO | Removed 1 record(s) with invalid dates.
+2026-08-02 16:40:46,720 | INFO | Logger initialized successfully.
+2026-08-02 16:40:46,724 | INFO | Found 1 CSV file(s).
+2026-08-02 16:40:46,724 | INFO | Reading file: sales_2026_08_01.csv
+2026-08-02 16:40:46,729 | INFO | Total records loaded: 11
+2026-08-02 16:40:46,732 | INFO | Removed 1 duplicated record(s).
+2026-08-02 16:40:46,733 | INFO | Removed 2 record(s) with invalid quantity.
+2026-08-02 16:40:46,735 | INFO | Removed 1 record(s) with invalid price.
+2026-08-02 16:40:46,743 | INFO | Removed 1 record(s) with invalid dates.
+2026-08-02 16:40:46,748 | INFO | Categories standardized successfully.
+2026-08-02 16:40:57,014 | INFO | Logger initialized successfully.
+2026-08-02 16:40:57,015 | INFO | Found 1 CSV file(s).
+2026-08-02 16:40:57,015 | INFO | Reading file: sales_2026_08_01.csv
+2026-08-02 16:40:57,018 | INFO | Total records loaded: 11
+2026-08-02 16:40:57,020 | INFO | Removed 1 duplicated record(s).
+2026-08-02 16:40:57,022 | INFO | Removed 2 record(s) with invalid quantity.
+2026-08-02 16:40:57,023 | INFO | Removed 1 record(s) with invalid price.
+2026-08-02 16:40:57,029 | INFO | Removed 1 record(s) with invalid dates.
+2026-08-02 16:40:57,032 | INFO | Categories standardized successfully.
+2026-08-02 17:01:11,340 | INFO | Logger initialized successfully.
+2026-08-02 17:01:11,342 | INFO | Found 1 CSV file(s).
+2026-08-02 17:01:11,343 | INFO | Reading file: sales_2026_08_01.csv
+2026-08-02 17:01:11,345 | INFO | Total records loaded: 11
+2026-08-02 17:01:11,346 | INFO | Removed 1 duplicated record(s).
+2026-08-02 17:01:11,348 | INFO | Removed 2 record(s) with invalid quantity.
+2026-08-02 17:01:11,349 | INFO | Removed 1 record(s) with invalid price.
+2026-08-02 17:01:11,354 | INFO | Removed 1 record(s) with invalid dates.
+2026-08-02 17:01:11,356 | INFO | Categories standardized successfully.
+2026-08-02 17:01:11,358 | INFO | Normalized customer names. Missing names filled: 1.
+2026-08-02 17:08:59,483 | INFO | Logger initialized successfully.
+2026-08-02 17:08:59,485 | INFO | Found 1 CSV file(s).
+2026-08-02 17:08:59,486 | INFO | Reading file: sales_2026_08_01.csv
+2026-08-02 17:08:59,488 | INFO | Total records loaded: 11
+2026-08-02 17:08:59,490 | INFO | Removed 1 duplicated record(s).
+2026-08-02 17:08:59,491 | INFO | Removed 2 record(s) with invalid quantity.
+2026-08-02 17:08:59,492 | INFO | Removed 1 record(s) with invalid price.
+2026-08-02 17:08:59,497 | INFO | Removed 1 record(s) with invalid dates.
+2026-08-02 17:08:59,499 | INFO | Categories standardized successfully.
+2026-08-02 17:08:59,500 | INFO | Normalized customer names. Missing names filled: 1.
+2026-08-02 17:08:59,502 | INFO | Calculated total_price column.
+2026-08-02 17:11:24,587 | INFO | Logger initialized successfully.
+2026-08-02 17:11:24,588 | INFO | Found 1 CSV file(s).
+2026-08-02 17:11:24,588 | INFO | Reading file: sales_2026_08_01.csv
+2026-08-02 17:11:24,590 | INFO | Total records loaded: 11
+2026-08-02 17:11:24,591 | INFO | Removed 1 duplicated record(s).
+2026-08-02 17:11:24,592 | INFO | Removed 2 record(s) with invalid quantity.
+2026-08-02 17:11:24,593 | INFO | Removed 1 record(s) with invalid price.
+2026-08-02 17:11:24,598 | INFO | Removed 1 record(s) with invalid dates.
+2026-08-02 17:11:24,600 | INFO | Categories standardized successfully.
+2026-08-02 17:11:24,601 | INFO | Normalized customer names. Missing names filled: 1.
+2026-08-02 17:11:24,602 | INFO | Calculated total_price column.

@@ -1,11 +1,12 @@
-sale_id,date,customer_id,customer_name,product,category,quantity,unit_price
-1,2026-08-01,1001,Ana Silva,Notebook Pro,Eletrônicos,1,4500.00
-2,2026-08-01,1002,Carlos Souza,Mouse Gamer,Eletrônicos,2,150.00
-3,2026-08-01,1003,Mariana Lima,Cadeira Office,Móveis,1,890.00
-4,2026-08-01,1004,Pedro Santos,Monitor 27,Eletrônicos,1,1200.00
-5,2026-08-01,1005,Juliana Costa,Teclado Mecânico,Eletrônicos,1,350.00
-6,2026-08-01,1006,Rafael Alves,Cafeteira,Casa,1,320.00
-7,2026-08-01,1007,Beatriz Rocha,Fone Bluetooth,Eletrônicos,2,280.00
-8,2026-08-01,1008,Gustavo Martins,Mesa Office,Móveis,1,950.00
-9,2026-08-01,1009,Patrícia Gomes,Luminária,Casa,3,120.00
-10,2026-08-01,1010,Fernanda Oliveira,SSD 1TB,Eletrônicos,1,540.00
+sale_id,date,customer_name,category,quantity,unit_price
+1,2026-08-01,Ana Silva,Electronics,1,4500
+2,2026-08-01,Carlos Souza,Books,2,120
+3,2026-08-02,João,electronics,1,350
+4,2026-08-02,Maria,BOOKS,1,80
+5,2026-08-03,Pedro,Eletronicos,0,150
+6,2026-08-03,,Electronics,1,700
+7,2026-08-32,Lucas,Electronics,1,200
+8,2026-08-04,Ana Silva,Electronics,-2,500
+9,2026-08-04,Marcos,Books,3,-50
+10,2026-08-05, Fernanda  ,books,2,90
+10,2026-08-05, Fernanda  ,books,2,90

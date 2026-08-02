@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # Diretório raiz do projeto
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Diretórios principais
 DATA_DIR = BASE_DIR / "data"
