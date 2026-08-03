@@ -1,17 +1,29 @@
+from sales_pipeline.database import (
+    create_connection,
+    initialize_database,
+    close_connection,
+)
+
 from sales_pipeline.extract import extract_sales_data
 from sales_pipeline.transform import transform_sales_data
+from sales_pipeline.load import load_sales_data
 
 
-def main() -> None:
+def main():
+
+    connection = create_connection()
+
+    initialize_database(connection)
+
     df = extract_sales_data()
 
-    df = transform_sales_data(df)
+    df = transform_sales_data(df) 
     
-    print("\nUnique categories:")
-    print(df["category"].unique())
+    load_sales_data(connection, df)
+    
 
     print(df)
-    
+
     print("\n" + "=" * 50)
     print("PIPELINE SUMMARY")
     print("=" * 50)
@@ -23,8 +35,8 @@ def main() -> None:
     for column in df.columns:
         print(f" - {column}")
 
+    close_connection(connection)
+
 
 if __name__ == "__main__":
     main()
-    
-    
