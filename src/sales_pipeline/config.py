@@ -11,6 +11,8 @@ PROCESSED_DATA_DIR = DATA_DIR / "processed"
 DATABASE_DIR = BASE_DIR / "database"
 LOGS_DIR = BASE_DIR / "logs"
 DOCS_DIR = BASE_DIR / "docs"
+DATABASE_PATH = DATABASE_DIR / "sales.db"
+SCHEMA_PATH = DATABASE_DIR / "schema.sql"
 
 # Garante que os diretórios existam
 for directory in (
