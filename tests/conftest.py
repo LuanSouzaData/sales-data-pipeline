@@ -4,47 +4,242 @@ import pytest
 
 @pytest.fixture
 def sample_sales_dataframe():
-    """
-    Sample DataFrame used across unit tests.
-    """
-
     return pd.DataFrame(
         {
-            "sale_id": [1, 2, 2, 3, 4],
+            "sale_id": [1, 2, 2],
             "date": [
                 "2026-08-01",
                 "2026-08-01",
                 "2026-08-01",
-                "2026-08-02",
-                "2026-08-03",
             ],
             "customer_name": [
                 "Ana",
                 "Carlos",
                 "Carlos",
-                "Maria",
-                None,
             ],
             "category": [
                 "Books",
-                "books",
-                "books",
-                "ELECTRONICS",
-                "electronics",
+                "Books",
+                "Books",
             ],
             "quantity": [
                 1,
                 2,
                 2,
-                1,
-                0,
             ],
             "unit_price": [
-                50,
-                80,
-                80,
+                100,
+                150,
+                150,
+            ],
+        }
+    )
+
+
+@pytest.fixture
+def invalid_quantity_dataframe():
+    return pd.DataFrame(
+        {
+            "sale_id": [1, 2, 3, 4],
+            "date": [
+                "2026-08-01",
+                "2026-08-01",
+                "2026-08-02",
+                "2026-08-02",
+            ],
+            "customer_name": [
+                "Ana",
+                "Carlos",
+                "Maria",
+                "Lucas",
+            ],
+            "category": [
+                "Books",
+                "Books",
+                "Books",
+                "Books",
+            ],
+            "quantity": [
+                1,
+                0,
+                -2,
+                3,
+            ],
+            "unit_price": [
+                100,
+                150,
+                200,
+                250,
+            ],
+        }
+    )
+    
+    
+@pytest.fixture
+def invalid_price_dataframe():
+    return pd.DataFrame(
+        {
+            "sale_id": [1, 2, 3, 4],
+            "date": [
+                "2026-08-01",
+                "2026-08-01",
+                "2026-08-02",
+                "2026-08-02",
+            ],
+            "customer_name": [
+                "Ana",
+                "Carlos",
+                "Maria",
+                "Lucas",
+            ],
+            "category": [
+                "Books",
+                "Books",
+                "Books",
+                "Books",
+            ],
+            "quantity": [
+                1,
+                2,
+                1,
+                3,
+            ],
+            "unit_price": [
+                100,
+                0,
+                -50,
+                250,
+            ],
+        }
+    )
+    
+    
+@pytest.fixture
+def invalid_dates_dataframe():
+    return pd.DataFrame(
+        {
+            "sale_id": [1, 2, 3, 4, 5],
+            "date": [
+                "2026-08-01",
+                "2026-08-32",
+                "abc",
+                None,
+                "2026-08-05",
+            ],
+            "customer_name": [
+                "Ana",
+                "Carlos",
+                "Maria",
+                "Lucas",
+                "Fernanda",
+            ],
+            "category": [
+                "Books",
+                "Books",
+                "Books",
+                "Books",
+                "Books",
+            ],
+            "quantity": [
+                1,
+                2,
+                1,
+                3,
+                2,
+            ],
+            "unit_price": [
+                100,
+                150,
+                200,
+                250,
                 300,
-                -10,
+            ],
+        }
+    )
+    
+    
+@pytest.fixture
+def categories_dataframe():
+    return pd.DataFrame(
+        {
+            "sale_id": [1, 2, 3, 4],
+            "date": [
+                "2026-08-01",
+                "2026-08-01",
+                "2026-08-02",
+                "2026-08-02",
+            ],
+            "customer_name": [
+                "Ana",
+                "Carlos",
+                "Maria",
+                "Lucas",
+            ],
+            "category": [
+                " books ",
+                "BOOKS",
+                "electronics",
+                " ELECTRONICS ",
+            ],
+            "quantity": [1, 2, 3, 4],
+            "unit_price": [100, 150, 200, 250],
+        }
+    )
+    
+    
+@pytest.fixture
+def customer_names_dataframe():
+    return pd.DataFrame(
+        {
+            "sale_id": [1, 2, 3, 4],
+            "date": [
+                "2026-08-01",
+                "2026-08-01",
+                "2026-08-02",
+                "2026-08-02",
+            ],
+            "customer_name": [
+                " ana silva ",
+                "CARLOS SOUZA",
+                None,
+                "mArIa",
+            ],
+            "category": [
+                "Books",
+                "Books",
+                "Books",
+                "Books",
+            ],
+            "quantity": [1, 2, 3, 4],
+            "unit_price": [100, 150, 200, 250],
+        }
+    )
+    
+    
+@pytest.fixture
+def total_price_dataframe():
+    return pd.DataFrame(
+        {
+            "sale_id": [1, 2],
+            "date": [
+                "2026-08-01",
+                "2026-08-02",
+            ],
+            "customer_name": [
+                "Ana",
+                "Carlos",
+            ],
+            "category": [
+                "Books",
+                "Books",
+            ],
+            "quantity": [
+                2,
+                5,
+            ],
+            "unit_price": [
+                100,
+                80,
             ],
         }
     )
