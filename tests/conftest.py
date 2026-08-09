@@ -1,3 +1,5 @@
+import sqlite3
+
 import pandas as pd
 import pytest
 
@@ -243,3 +245,26 @@ def total_price_dataframe():
             ],
         }
     )
+    
+    
+@pytest.fixture
+def sqlite_connection():
+        connection = sqlite3.connect(":memory:")
+
+        connection.execute(
+        """
+        CREATE TABLE sales (
+            sale_id INTEGER PRIMARY KEY,
+            date TEXT NOT NULL,
+            customer_name TEXT NOT NULL,
+            category TEXT NOT NULL,
+            quantity INTEGER NOT NULL,
+            unit_price REAL NOT NULL,
+            total_price REAL NOT NULL
+        )
+        """
+    )
+
+        yield connection
+
+        connection.close()
