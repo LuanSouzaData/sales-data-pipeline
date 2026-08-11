@@ -1,4 +1,5 @@
 import pandas as pd
+import pytest
 
 from sales_pipeline.load import load_sales_data
 
@@ -136,3 +137,47 @@ def test_load_sales_data_updates_existing_sale(sqlite_connection):
         500.0,
         1500.0,
     )
+
+
+def test_load_sales_data_rolls_back_on_error(sqlite_connection):
+    # Arrange
+    valid_df = pd.DataFrame(
+        {
+            "sale_id": [1],
+            "date": pd.to_datetime(["2026-08-01"]),
+            "customer_name": ["Ana"],
+            "category": ["Books"],
+            "quantity": [2],
+            "unit_price": [100],
+            "total_price": [200],
+        }
+    )
+
+    invalid_df = pd.DataFrame(
+        {
+            "sale_id": [2],
+            "date": pd.to_datetime(["2026-08-02"]),
+            "customer_name": [None],
+            "category": ["Books"],
+            "quantity": [1],
+            "unit_price": [100],
+            "total_price": [100],
+        }
+    )
+
+    # Act
+    load_sales_data(sqlite_connection, valid_df)
+
+    with pytest.raises(Exception):
+        load_sales_data(sqlite_connection, invalid_df)
+
+    # Assert
+    cursor = sqlite_connection.cursor()
+
+    cursor.execute(
+        "SELECT COUNT(*) FROM sales"
+    )
+
+    result = cursor.fetchone()[0]
+
+    assert result == 1
