@@ -25,8 +25,5 @@ for directory in (
 ):
     directory.mkdir(parents=True, exist_ok=True)
 
-# Banco de dados
-DATABASE_FILE = DATABASE_DIR / "sales.db"
-
 # Arquivo de log
 LOG_FILE = LOGS_DIR / "pipeline.log"
