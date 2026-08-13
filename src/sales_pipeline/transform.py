@@ -9,7 +9,7 @@ def remove_duplicates(df: pd.DataFrame) -> pd.DataFrame:
     """
     Remove duplicated sales based on the sale_id column.
     """
-
+    df = df.copy()
     original_rows = len(df)
 
     df = df.drop_duplicates(subset=["sale_id"])
@@ -24,7 +24,7 @@ def remove_invalid_quantity(df: pd.DataFrame) -> pd.DataFrame:
     """
     Remove records with quantity less than or equal to zero.
     """
-
+    df = df.copy()
     original_rows = len(df)
 
     df = df[df["quantity"] > 0]
@@ -42,7 +42,7 @@ def remove_invalid_prices(df: pd.DataFrame) -> pd.DataFrame:
     """
     Remove records with unit_price less than or equal to zero.
     """
-
+    df = df.copy()
     original_rows = len(df)
 
     df = df[df["unit_price"] > 0]
@@ -60,7 +60,7 @@ def transform_sales_data(df: pd.DataFrame) -> pd.DataFrame:
     """
     Apply all implemented data quality rules.
     """
-
+    
     df = remove_duplicates(df)
     df = remove_invalid_quantity(df)
     df = remove_invalid_prices(df)
@@ -76,7 +76,7 @@ def validate_dates(df: pd.DataFrame) -> pd.DataFrame:
     Validate and convert the date column.
     Invalid dates are removed.
     """
-
+    df = df.copy()
     original_rows = len(df)
 
     df["date"] = pd.to_datetime(
