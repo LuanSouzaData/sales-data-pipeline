@@ -12,14 +12,19 @@ The project is being developed as a practical study in **Data Engineering**, wit
 
 This project demonstrates an end-to-end data pipeline capable of:
 
-- Extracting sales data from CSV files
-- Validating and cleaning incoming data
-- Standardizing categories and customer names
-- Calculating derived sales metrics
-- Loading transformed data into SQLite
-- Running automated unit tests with Pytest
-- Validating changes automatically with GitHub Actions
-- Maintaining a clean and modular project structure
+* Extracting sales data from CSV files
+* Validating and cleaning incoming data
+* Removing duplicate sales records
+* Validating quantities, prices, and dates
+* Standardizing categories
+* Normalizing customer names
+* Calculating derived sales metrics
+* Loading transformed data into SQLite
+* Updating existing records through an upsert strategy
+* Rolling back database transactions when loading fails
+* Running automated tests with Pytest
+* Validating changes automatically with GitHub Actions
+* Maintaining a clean and modular project structure
 
 ---
 
@@ -28,12 +33,13 @@ This project demonstrates an end-to-end data pipeline capable of:
 ```text
                  ┌─────────────────┐
                  │    CSV Files    │
+                 │   data/raw/     │
                  └────────┬────────┘
                           │
                           ▼
                  ┌─────────────────┐
                  │     Extract     │
-                 │     (Pandas)    │
+                 │     Pandas      │
                  └────────┬────────┘
                           │
                           ▼
@@ -43,13 +49,18 @@ This project demonstrates an end-to-end data pipeline capable of:
                  │ • Deduplication │
                  │ • Validation    │
                  │ • Standardizing │
+                 │ • Normalization │
                  │ • Calculations  │
                  └────────┬────────┘
                           │
                           ▼
                  ┌─────────────────┐
                  │      Load       │
-                 │    (SQLite)     │
+                 │     SQLite      │
+                 │                 │
+                 │ • Upsert        │
+                 │ • Transactions  │
+                 │ • Rollback      │
                  └────────┬────────┘
                           │
                           ▼
@@ -71,15 +82,15 @@ This project demonstrates an end-to-end data pipeline capable of:
 
 ## 🧰 Technologies
 
-| Technology | Purpose |
-|---|---|
-| Python 3.13 | Main programming language |
-| Pandas | Data extraction and transformation |
-| SQLite | Relational database for the pipeline output |
-| Pytest | Automated unit testing |
-| Git | Version control |
-| GitHub | Repository and collaboration |
-| GitHub Actions | Continuous Integration |
+| Technology     | Purpose                                 |
+| -------------- | --------------------------------------- |
+| Python 3.13    | Main programming language               |
+| Pandas         | Data extraction and transformation      |
+| SQLite         | Relational database for pipeline output |
+| Pytest         | Automated testing                       |
+| Git            | Version control                         |
+| GitHub         | Repository and collaboration            |
+| GitHub Actions | Continuous Integration                  |
 
 ---
 
@@ -89,16 +100,19 @@ This project demonstrates an end-to-end data pipeline capable of:
 sales-data-pipeline/
 │
 ├── data/
+│   ├── processed/
 │   └── raw/
 │       └── sales_2026_08_01.csv
 │
 ├── database/
-│   └── sales.db
+│   ├── sales.db
+│   └── schema.sql
 │
 ├── docs/
 │   └── data_quality.md
 │
 ├── logs/
+│   └── pipeline.log
 │
 ├── src/
 │   ├── main.py
@@ -106,13 +120,17 @@ sales-data-pipeline/
 │   └── sales_pipeline/
 │       ├── __init__.py
 │       ├── config.py
+│       ├── database.py
 │       ├── extract.py
 │       ├── load.py
 │       ├── logger.py
 │       └── transform.py
 │
 ├── tests/
+│   ├── __init__.py
 │   ├── conftest.py
+│   ├── test_extract.py
+│   ├── test_load.py
 │   └── test_transform.py
 │
 ├── .github/
@@ -129,29 +147,61 @@ sales-data-pipeline/
 
 ---
 
-## 🔄 Data Transformation
+## 🔄 Data Pipeline
 
-The transformation layer currently performs the following operations:
+The pipeline follows an **Extract → Transform → Load (ETL)** architecture.
 
-### 1. Remove duplicates
+### Extract
 
-Duplicate sales records are identified and removed.
+The extraction layer reads all CSV files from:
 
-### 2. Validate quantity
+```text
+data/raw/
+```
 
-Records with invalid quantities, such as zero or negative values, are removed.
+The files are loaded into Pandas DataFrames and combined into a single dataset.
 
-### 3. Validate prices
+If no CSV files are found, the pipeline raises a `FileNotFoundError`.
 
-Records with invalid or negative unit prices are removed.
+---
 
-### 4. Validate dates
+### Transform
 
-Invalid dates are converted to missing values and removed from the final dataset.
+The transformation layer applies a sequence of data-quality and business rules.
 
-### 5. Standardize categories
+#### 1. Remove duplicates
 
-Category values such as:
+Duplicate sales are identified using the `sale_id` column.
+
+Only one record for each `sale_id` is retained.
+
+#### 2. Validate quantity
+
+Records with quantities less than or equal to zero are removed.
+
+```text
+quantity > 0
+```
+
+#### 3. Validate prices
+
+Records with unit prices less than or equal to zero are removed.
+
+```text
+unit_price > 0
+```
+
+#### 4. Validate dates
+
+The `date` column is converted to a datetime representation.
+
+Invalid dates are converted to missing values and removed.
+
+#### 5. Standardize categories
+
+Category values are normalized by removing surrounding whitespace and converting text to lowercase before applying the standard category mapping.
+
+Examples:
 
 ```text
 books
@@ -161,24 +211,30 @@ electronics
 ELECTRONICS
 ```
 
-are standardized into consistent values:
+are standardized to:
 
 ```text
 Books
 Electronics
 ```
 
-### 6. Normalize customer names
+#### 6. Normalize customer names
 
-Customer names are cleaned and standardized.
+Customer names are cleaned by:
 
-Missing customer names are replaced with:
+* Removing unnecessary whitespace
+* Standardizing capitalization
+* Replacing missing names with `Unknown`
+
+Examples:
 
 ```text
-Unknown
+" ana silva "  →  "Ana Silva"
+"CARLOS SOUZA" →  "Carlos Souza"
+None            →  "Unknown"
 ```
 
-### 7. Calculate total price
+#### 7. Calculate total price
 
 The pipeline derives the total value of each sale:
 
@@ -186,14 +242,41 @@ The pipeline derives the total value of each sale:
 total_price = quantity × unit_price
 ```
 
+The transformation functions operate on copies of the input DataFrame to avoid unintentionally mutating the original dataset.
+
+---
+
+### Load
+
+The loading layer stores the transformed data in SQLite.
+
+The destination database is:
+
+```text
+database/sales.db
+```
+
+Records are inserted using a parameterized SQL statement.
+
+The pipeline uses an **upsert** strategy based on `sale_id`:
+
+* New `sale_id` values are inserted.
+* Existing `sale_id` values are updated.
+
+Database transactions are committed after a successful load.
+
+If an error occurs during the operation, the transaction is rolled back and the exception is propagated.
+
 ---
 
 ## 🗃️ Database
 
-The transformed data is loaded into a SQLite database:
+The pipeline uses SQLite as the relational storage layer.
+
+The database schema is defined in:
 
 ```text
-database/sales.db
+database/schema.sql
 ```
 
 The main table is:
@@ -216,23 +299,37 @@ The database can be inspected using tools such as DBeaver or the SQLite command-
 
 ## 🧪 Automated Tests
 
-The project uses Pytest for unit testing.
+The project uses **Pytest** for automated testing.
 
-The current test suite covers the transformation layer:
+The current test suite contains **13 tests** covering the main pipeline components.
 
-- `remove_duplicates()`
-- `remove_invalid_quantity()`
-- `remove_invalid_prices()`
-- `validate_dates()`
-- `standardize_categories()`
-- `normalize_customer_names()`
-- `calculate_total_price()`
+### Extract tests
 
-Current result:
+`tests/test_extract.py`
 
-```text
-7 passed
-```
+* Extract multiple CSV files
+* Handle missing CSV files
+
+### Transform tests
+
+`tests/test_transform.py`
+
+* Remove duplicate sales
+* Remove invalid quantities
+* Remove invalid prices
+* Validate dates
+* Standardize categories
+* Normalize customer names
+* Calculate total prices
+* Validate the complete transformation pipeline
+
+### Load tests
+
+`tests/test_load.py`
+
+* Load transformed records into SQLite
+* Update existing records using upsert
+* Roll back transactions when loading fails
 
 ### Run the tests
 
@@ -242,10 +339,10 @@ From the project root:
 python -m pytest -v
 ```
 
-Expected result:
+Current result:
 
 ```text
-7 passed
+13 passed
 ```
 
 ---
@@ -279,7 +376,12 @@ python -m venv .venv
 
 ```bash
 python -m pip install -r requirements.txt
-python -m pip install pytest
+```
+
+The project dependencies, including Pytest, are defined in:
+
+```text
+requirements.txt
 ```
 
 ### 4. Run the pipeline
@@ -288,17 +390,29 @@ python -m pip install pytest
 python src/main.py
 ```
 
-The pipeline processes the CSV input and loads the transformed records into:
+The pipeline reads CSV files from:
+
+```text
+data/raw/
+```
+
+and loads the transformed records into:
 
 ```text
 database/sales.db
+```
+
+Application logs are written to:
+
+```text
+logs/pipeline.log
 ```
 
 ---
 
 ## 🔁 Continuous Integration
 
-The project uses **GitHub Actions** to automatically run the test suite.
+The project uses **GitHub Actions** to automatically execute the test suite.
 
 The workflow is located at:
 
@@ -310,9 +424,9 @@ Whenever changes are pushed to the configured branches or a Pull Request is open
 
 1. Checks out the repository
 2. Sets up Python 3.13
-3. Installs the project dependencies
-4. Installs Pytest
-5. Runs the automated test suite
+3. Installs project dependencies
+4. Runs the automated test suite
+5. Reports the test result
 
 The badge at the top of this README reflects the current status of the CI workflow.
 
@@ -336,6 +450,9 @@ After implementing and testing the feature:
 ```bash
 python -m pytest -v
 
+git status
+git diff
+
 git add .
 git commit -m "feat: describe the change"
 git push origin feature/my-feature
@@ -344,6 +461,23 @@ git push origin feature/my-feature
 A Pull Request is then opened against `main`.
 
 After the CI checks pass, the feature can be merged.
+
+### Commit Convention
+
+The project follows **Conventional Commits**.
+
+Examples:
+
+```text
+feat: add new pipeline functionality
+fix: handle invalid sales records
+test: add pipeline tests
+refactor: simplify transformation logic
+docs: update README
+chore: update dependencies
+```
+
+Small, focused commits are preferred so that each change has a clear purpose.
 
 ---
 
@@ -357,13 +491,15 @@ docs/data_quality.md
 
 The pipeline currently handles:
 
-- Duplicate records
-- Invalid quantities
-- Invalid prices
-- Invalid dates
-- Category inconsistencies
-- Missing customer names
-- Derived total prices
+* Duplicate records
+* Invalid quantities
+* Invalid prices
+* Invalid dates
+* Category inconsistencies
+* Missing customer names
+* Derived total prices
+
+The transformation layer is designed to produce a clean and standardized dataset before it reaches the database.
 
 ---
 
@@ -371,30 +507,39 @@ The pipeline currently handles:
 
 ### Completed
 
-- [x] Project structure
-- [x] CSV extraction
-- [x] Data cleaning and validation
-- [x] Category standardization
-- [x] Customer name normalization
-- [x] Total price calculation
-- [x] SQLite database
-- [x] Modular pipeline architecture
-- [x] Unit tests with Pytest
-- [x] Git feature-branch workflow
-- [x] GitHub Actions CI
+* [x] Project structure
+* [x] CSV extraction
+* [x] Data cleaning and validation
+* [x] Duplicate removal
+* [x] Quantity validation
+* [x] Price validation
+* [x] Date validation
+* [x] Category standardization
+* [x] Customer name normalization
+* [x] Total price calculation
+* [x] SQLite database
+* [x] SQLite upsert behavior
+* [x] Transaction rollback
+* [x] Modular ETL architecture
+* [x] Automated tests with Pytest
+* [x] Extract tests
+* [x] Transform tests
+* [x] Load tests
+* [x] Git feature-branch workflow
+* [x] Conventional Commits
+* [x] GitHub Actions CI
 
 ### Planned
 
-- [ ] Improve test coverage
-- [ ] Add integration tests for the database layer
-- [ ] Add database CRUD operations
-- [ ] Improve error handling and retry strategies
-- [ ] Add test coverage reporting
-- [ ] Containerize the application with Docker
-- [ ] Add pipeline orchestration with Apache Airflow
-- [ ] Introduce cloud storage with AWS S3
-- [ ] Add monitoring and observability
-- [ ] Expand the pipeline toward a cloud-based data platform
+* [ ] Expand integration tests for the complete ETL flow
+* [ ] Improve error handling and retry strategies
+* [ ] Add test coverage reporting
+* [ ] Improve data validation and schema enforcement
+* [ ] Containerize the application with Docker
+* [ ] Add pipeline orchestration with Apache Airflow
+* [ ] Introduce cloud storage with AWS S3
+* [ ] Add monitoring and observability
+* [ ] Expand the pipeline toward a cloud-based data platform
 
 ---
 
@@ -402,20 +547,24 @@ The pipeline currently handles:
 
 This project is designed to demonstrate practical knowledge of:
 
-- ETL / ELT concepts
-- Data cleaning and validation
-- Python for Data Engineering
-- Pandas
-- SQL and relational databases
-- SQLite
-- Modular software architecture
-- Unit testing
-- Test fixtures
-- Git and feature branches
-- Conventional Commits
-- Pull Requests
-- Continuous Integration
-- Data quality practices
+* ETL / ELT concepts
+* Data extraction
+* Data cleaning and validation
+* Data quality practices
+* Python for Data Engineering
+* Pandas
+* SQL
+* SQLite
+* Modular software architecture
+* Automated testing
+* Test fixtures
+* Database transactions
+* Upsert strategies
+* Git and feature branches
+* Conventional Commits
+* Pull Requests
+* Continuous Integration
+* GitHub Actions
 
 ---
 
