@@ -68,7 +68,11 @@ def transform_sales_data(df: pd.DataFrame) -> pd.DataFrame:
     df = standardize_categories(df)
     df = normalize_customer_names(df)
     df = calculate_total_price(df)
-
+    
+    logger.info(
+        "Transformation completed. %s record(s) remaining.",
+        len(df),
+    )
     return df
 
 def validate_dates(df: pd.DataFrame) -> pd.DataFrame:
@@ -154,6 +158,9 @@ def calculate_total_price(df: pd.DataFrame) -> pd.DataFrame:
         df["quantity"] * df["unit_price"]
     )
 
-    logger.info("Calculated total_price column.")
+    logger.info(
+        "Transformation completed. %s record(s) remaining.",
+        len(df),
+    )
 
     return df
