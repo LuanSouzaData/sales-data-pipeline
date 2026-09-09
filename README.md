@@ -565,17 +565,3 @@ This project is designed to demonstrate practical knowledge of:
 * Pull Requests
 * Continuous Integration
 * GitHub Actions
-
----
-
-## 👨‍💻 Author
-
-**Luan Souza**
-
-Data Engineering enthusiast focused on building practical projects involving data pipelines, cloud technologies, Python, SQL, and distributed data processing.
-
----
-
-## 📄 License
-
-This project is licensed under the terms defined in the `LICENSE` file.
