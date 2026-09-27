@@ -540,3 +540,28 @@ The transformation layer is designed to produce a clean and standardized dataset
 * [ ] Introduce cloud storage with AWS S3
 * [ ] Add monitoring and observability
 * [ ] Expand the pipeline toward a cloud-based data platform
+
+---
+
+## 📚 What This Project Demonstrates
+
+This project is designed to demonstrate practical knowledge of:
+
+* ETL / ELT concepts
+* Data extraction
+* Data cleaning and validation
+* Data quality practices
+* Python for Data Engineering
+* Pandas
+* SQL
+* SQLite
+* Modular software architecture
+* Automated testing
+* Test fixtures
+* Database transactions
+* Upsert strategies
+* Git and feature branches
+* Conventional Commits
+* Pull Requests
+* Continuous Integration
+* GitHub Actions
